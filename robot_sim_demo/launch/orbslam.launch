@@ -1,0 +1,25 @@
+<launch>
+    <arg name="PATH_TO_VOCABULARY" value="$(find ORB_SLAM2)/../../../Vocabulary/ORBvoc.bin"/>
+    <arg name="PATH_TO_SETTINGS_FILE" value="$(find ORB_SLAM2)/../../../Examples/RGB-D/TUM1.yaml "/>
+
+    <!-- <include file="$(find robot_sim_demo)/launch/robot_spawn.launch"/> -->
+
+    <!-- Launch file to launch:  -->
+    <!-- 1. Two cloud_to_grid nodes => /map1, /map2 -->
+    <!-- 2. A merge_map_node to publish /final_map -->
+
+    <!-- ORB_SLAM2 nodes -->
+    <group ns="robot1">
+            <node name="RGBD" pkg="ORB_SLAM2" type="RGBD" args="$(arg PATH_TO_VOCABULARY) $(arg PATH_TO_SETTINGS_FILE)">
+                <remap from="/cam0/rgb/image_raw" to="/robot1/cam0/rgb/image_raw"/>
+                <remap from="/cam0/depth/image_raw" to="/robot1/cam0/depth/image_raw" />
+            </node>
+    </group>
+
+    <group ns="robot2">
+            <node name="RGBD" pkg="ORB_SLAM2" type="RGBD" args="$(arg PATH_TO_VOCABULARY) $(arg PATH_TO_SETTINGS_FILE)">
+                <remap from="/cam0/rgb/image_raw" to="/robot2/cam0/rgb/image_raw"/>
+                <remap from="/cam0/depth/image_raw" to="/robot2/cam0/depth/image_raw" />
+            </node>
+    </group>
+</launch>

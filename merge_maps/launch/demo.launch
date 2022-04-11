@@ -1,0 +1,20 @@
+<launch>
+
+    <arg name="path" default="$(find ORB_SLAM2)../../../rosbags/" />
+    <arg name="file_1" default="robot1_map" />
+    <arg name="file_2" default="robot2_map" />
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock $(arg path)$(arg file_1).bag $(arg path)$(arg file_2).bag"/>
+
+    <!-- merge_map_node -->
+    <node name="merge_maps_node" pkg="merge_maps" type="merge_maps_node">
+        <remap from="/map1" to="/robot1/map"/>
+        <remap from="/map2" to="/robot2/map"/>
+    </node>
+
+    <!-- rviz for visualization the merged map -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find merge_maps)/merge_maps.rviz" />
+
+    <!-- rqt_graph for visualization -->
+    <node name="rqt_graph" pkg="rqt_graph" type="rqt_graph" /> 
+
+</launch>

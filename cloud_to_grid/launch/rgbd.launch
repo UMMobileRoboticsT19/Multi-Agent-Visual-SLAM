@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node name="cloud_to_grid" pkg="cloud_to_grid" type="generate_grid" respawn="true" output="screen">  >
+  <param name="mode" type="bool" value="true" />
+  <param name="project_direction" type="int" value="2" />
+
+  <param name="searchRadius" type="double" value="0.1" />
+
+  <param name="deviation" type="double" value="0.5" />
+  <param name="sigma" type="double" value="0.5" />
+  <param name="threshold" type="int" value="5" />
+  <param name="cellResolution" type="double" value="0.05" />
+  <param name="clip_max" type="double" value="10.0" />
+  <param name="clip_min" type="double" value="-1.0" />
+  <param name="map_size" type="double" value="40" />
+  </node>
+  <!--<node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure"></node>-->
+</launch>

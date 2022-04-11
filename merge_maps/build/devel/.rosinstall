@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/goro/catkin_ws/src/merge_maps/build/devel/setup.sh

@@ -1,0 +1,8 @@
+prefix=/home/goro/catkin_ws/src/merge_maps/build/devel
+
+Name: merge_maps
+Description: Description of merge_maps
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,33 @@
+<launch>
+    <!-- <arg name="PATH_TO_VOCABULARY" value="$(find ORB_SLAM2)/../../../Vocabulary/ORBvoc.bin"/>
+    <arg name="PATH_TO_SETTINGS_FILE" value="$(find ORB_SLAM2)/../../../Examples/RGB-D/TUM1.yaml "/> -->
+
+    <!-- Launch file to launch:  -->
+    <!-- 1. Two cloud_to_grid nodes => /map1, /map2 -->
+    <!-- 2. A merge_map_node to publish /final_map -->
+
+    <!-- cloud_to_grid node -->
+    <group ns="robot1">
+        <include file="$(find cloud_to_grid)/launch/rgbd.launch"/>
+        <!-- <node name="point_cloud_to_map" pkg="cloud_to_grid" type="generate_grid"/> -->
+        <!-- <remap from="/pcl_output" to="/robot1/pcl_output" /> -->
+        
+    </group>
+
+    <group ns="robot2">
+         <include file="$(find cloud_to_grid)/launch/rgbd.launch"/>
+        <!-- <node name="point_cloud_to_map" pkg="cloud_to_grid" type="generate_grid"/> -->
+        <!-- <remap from="/pcl_output" to="/robot2/pcl_output"/> -->
+    </group>
+
+    <!-- Merge Map -->
+    <node name="merge_maps_node" pkg="merge_maps" type="merge_maps_node" >
+        <remap from="/map1" to="/robot1/map"/>
+        <remap from="/map2" to="/robot2/map"/>
+    </node>
+
+    <!-- rivz map -->
+    <node name="rviz" pkg ="rviz" type="rviz" args="-d $(find robot_sim_demo)/config.rviz" />
+
+</launch>
+

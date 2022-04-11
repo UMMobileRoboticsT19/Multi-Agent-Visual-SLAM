@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="ros_model">
+  <link
+    name="base_link">
+    <inertial>
+      <mass value="10"/>
+      <origin xyz="0 0 0"/>
+      <!--The 3x3 rotational inertia matrix. -->
+      <inertia ixx="0.0282916666667" ixy="0" ixz="0" iyy="0.0282916666667" iyz="0" izz="0.05625"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.4 0.3 0.1"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.87059 0.87059 0.87059 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.4 0.3 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+   <gazebo reference="base_link">
+      <material>Gazebo/Red</material>
+    </gazebo>
+
+  <link
+    name="direction_wheel">
+     <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="1.0" />
+      <inertia
+        ixx="0.01"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.01"
+        iyz="0.0"
+        izz="0.01" />
+    </inertial>
+    <visual>
+      <geometry>
+      <sphere radius="0.02"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.80784 0.84314 0.90588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+          <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo reference="direction_wheel">
+    <mu1 value="0.1"/>
+    <mu2 value="0.1"/>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+  <joint
+    name="direction_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.18 0 -0.1"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="direction_wheel" />
+
+  </joint>
+
+
+  <link
+    name="right_back_wheel">
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+        <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+<cylinder length="0.05" radius="0.07"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+	<cylinder length="0.05" radius="0.07"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+<gazebo reference="right_back_wheel">
+    <mu1 value="1.0"/>
+    <mu2 value="1.0"/>
+    <material>Gazebo/Grey</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+  <joint
+    name="right_back_joint"
+    type="continuous">
+    <origin
+     xyz="-0.18 -0.15 -0.05"
+      rpy="-1.5707 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_back_wheel" />
+    <axis
+      xyz="0 0 1" />
+
+  </joint>
+
+
+        <transmission name="right_back_joint_transmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="right_back_joint">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="right_back_joint_motor">
+                <mechanicalReducction>1</mechanicalReducction>
+            </actuator>
+        </transmission>
+
+  <link
+    name="left_back_wheel">
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <cylinder length="0.05" radius="0.07"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.52941 0.54902 0.54902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+<cylinder length="0.05" radius="0.07"/>
+      </geometry>
+    </collision>
+  </link>
+
+<gazebo reference="left_back_wheel">
+    <mu1 value="1.0"/>
+    <mu2 value="1.0"/>
+
+    <material>Gazebo/Grey</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+
+  <joint
+    name="left_back_joint"
+    type="continuous">
+    <origin
+      xyz="-0.18 0.15 -0.05"
+      rpy="-1.5707 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_back_wheel" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+
+       <transmission name="left_back_joint_transmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="left_back_joint">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="left_back_joint_motor">
+                <mechanicalReducction>1</mechanicalReducction>
+            </actuator>
+        </transmission>
+
+
+  <link
+    name="sensor_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.01" />
+      <inertia
+        ixx="0.0"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.0"
+        iyz="0.0"
+        izz="0.0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.01" radius="0.01"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+          <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+   <gazebo reference="sensor_link">
+      <material>Gazebo/CameraLensFlare</material>
+    </gazebo>
+
+  <joint
+    name="base_sensor_joint"
+    type="fixed">
+    <origin
+      xyz="0.2 0.0 0.15"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="sensor_link" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+
+
+ <gazebo>
+    <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller_front">
+      <publishWheelTF>True</publishWheelTF>
+      <publishTf>1</publishTf>
+	<legacyMode>0</legacyMode>
+      <publishWheelJointState>true</publishWheelJointState>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>20.0</updateRate>
+      <leftJoint>left_back_joint</leftJoint>
+      <rightJoint>right_back_joint</rightJoint>
+      <wheelSeparation>0.3</wheelSeparation>
+      <wheelDiameter>0.14</wheelDiameter>
+      <broadcastTF>1</broadcastTF>
+      <wheelTorque>10</wheelTorque>
+      <wheelAcceleration>0.5</wheelAcceleration>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryTopic>odom</odometryTopic>
+      <robotBaseFrame>base_link</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+ <gazebo>
+     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+         <robotNamespace>/</robotNamespace>
+         <legacyModeNS>true</legacyModeNS>
+	
+     </plugin>
+ </gazebo>
+
+<gazebo reference="sensor_link"> 
+            <sensor type="depth" name="camera">
+            <pose>0 0 0 0 0 0</pose>
+            <update_rate>30.0</update_rate> 
+            <camera name="head">
+                <horizontal_fov>1.3962634</horizontal_fov> 
+                <image>
+                    <width>752</width> 
+                    <height>480</height>
+                    <format>R8G8B8</format> 
+                </image>
+                <clip>
+                    <near>0.01</near> 
+                    <far>300</far> 
+                </clip>
+            </camera>
+            
+            <plugin name="kinect_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>30</updateRate>
+                <cameraName>cam0</cameraName> 
+                <imageTopicName>rgb/image_raw</imageTopicName> 
+                
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+		<pointCloudTopicName>depth/points</pointCloudTopicName>
+                <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+		<depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+                <frameName>camera_link</frameName>
+                <baseline>0.1</baseline>
+		<distortion_k1>0.0</distortion_k1>
+		<distortion_k2>0.0</distortion_k2>
+		<distortion_k3>0.0</distortion_k3>
+		<distortion_t1>0.0</distortion_t1>
+		<distortion_t2>0.0</distortion_t2>
+                <pointCloudCutoff>0.4</pointCloudCutoff>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>

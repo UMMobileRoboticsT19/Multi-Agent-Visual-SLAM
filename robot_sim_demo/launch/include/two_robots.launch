@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+
+  <param
+    name="robot_description"
+    textfile="$(find robot_sim_demo)/urdf/self_model.urdf" />
+  <node
+    name="joint_state_publisher"
+    pkg="joint_state_publisher"
+    type="joint_state_publisher" />
+
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher" />
+
+
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model mycar -param robot_description -z 1.0 -x 4.5 -y 4.5" respawn="false" output="screen" />
+
+  <node pkg="tf" type="static_transform_publisher" name="transform_coordinate" args="0 0 0 0 0 0 base_link laser_link 100"/>
+  <rosparam command="load"
+            file="$(find robot_sim_demo)/config/joints.yaml"
+            ns="joint_state_controller"
+            />
+
+
+
+  <node name="mycar_controller_spawner" pkg="controller_manager" type="spawner" 
+        args="joint_state_controller"/>
+
+  <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
+    <param name="default_topic" value="/cmd_vel"/>
+  </node>
+</launch>

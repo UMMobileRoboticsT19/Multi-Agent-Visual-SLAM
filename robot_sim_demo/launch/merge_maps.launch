@@ -1,0 +1,47 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="known_initial_pos" default="true"/>
+  <!-- Namespaces -->
+  <arg name="first_tb3"  default="robot1"/>
+  <arg name="second_tb3" default="robot2"/>
+  <!-- Initial position for the first turtlebot -->
+  <arg name="first_tb3_x_pos" default="0"/>
+  <arg name="first_tb3_y_pos" default="0"/>
+  <arg name="first_tb3_z_pos" default=" 0.0"/>
+  <arg name="first_tb3_yaw"   default=" 0.0"/>
+  <!-- Initial position for the second turtlebot -->
+  <arg name="second_tb3_x_pos" default=" 0.0"/>
+  <arg name="second_tb3_y_pos" default=" -0.5"/>
+  <arg name="second_tb3_z_pos" default=" 0.0"/>
+  <arg name="second_tb3_yaw"   default=" 0.0"/>
+  <!-- Pass the second turtlebot's position tb3_1/map_merge  -->
+  <group ns="$(arg second_tb3)/map_merge">
+    <param name="init_pose_x"   value="$(arg second_tb3_x_pos)"/>
+    <param name="init_pose_y"   value="$(arg second_tb3_y_pos)"/>
+    <param name="init_pose_z"   value="$(arg second_tb3_z_pos)"/>
+    <param name="init_pose_yaw" value="$(arg second_tb3_yaw)"  />
+  </group>
+  <!-- Pass the first turtlebot's position tb3_0/map_merge  -->
+  <group ns="$(arg first_tb3)/map_merge">
+    <param name="init_pose_x"   value="$(arg first_tb3_x_pos)"/>
+    <param name="init_pose_y"   value="$(arg first_tb3_y_pos)"/>
+    <param name="init_pose_z"   value="$(arg first_tb3_z_pos)"/>
+    <param name="init_pose_yaw" value="$(arg first_tb3_yaw)"  />
+  </group>
+  <!-- Run the multirobot_map_merging node -->
+  <node pkg="multirobot_map_merge" type="map_merge" respawn="false" name="map_merge">
+    <param name="robot_map_topic" value="map"/>
+    <!-- <param name="robot_namespace" value="robot1"/> -->
+    <param name="merged_map_topic" value="map"/>
+    <param name="world_frame" value="map"/>
+    <param name="known_init_poses" value="$(arg known_initial_pos)"/>
+    <param name="merging_rate" value="0.5"/>
+    <param name="discovery_rate" value="0.05"/>
+    <param name="estimation_rate" value="0.1"/>
+    <param name="estimation_confidence" value="5.0"/>
+    <!-- remap the individual maps from the local map (published by SLAM) to the expanded map (published by the map_expansion node)-->
+    <remap from = "$(arg second_tb3)/map" to = "/robot2/map"/>
+    <remap from = "$(arg first_tb3)/map" to = "/robot1/map"/>
+  </node>
+</launch>
+<!-- http://wiki.ros.org/multirobot_map_merge -->
