@@ -9,7 +9,7 @@ We proposed a method for running Multi-Agent Visual SLAM in real-time in a simul
 ### 1. Git clone this package to home directory
 
 ### 2. Build ORB_SLAM2
-
+chmod +x build.sh build_ros.sh
 
 ### 3. Build the rest ROS packages
 
@@ -22,22 +22,28 @@ You should be able to run all ROS nodes in these packages!
 ## How to run the project:
 
 ### 1. Open a terminal and run:
-```
-roslaunch robot_sim_demo robot_spawn.launch
-```
-
+if you want to launch both the world and multiple car models, run: 
+'''
+roslaunch robot_sim_demo robots_spawn.launch
+'''
+if you want to launch both the world and multiple car models, run: 
+'''
+roslaunch robot_sim_demo robot_single_spawn.launch
+'''
+if you want to launch just the car model in gazebo, run:
+'''
+roslaunch robot_sim_demo car.launch
+'''
 ### 2. Open other two terminals, run below commands. (Each command use one terminal)
 ```
-ROS_NAMESPACE=robot1 rosrun ORB_SLAM2 RGBD Vocabulary/ORBvoc.bin TUM1.yaml /cam0/rgb/image_raw:=/robot1/cam0/rgb/image_raw /cam0/depth/image_raw:=/robot1/cam0/depth/image_raw
-
-// Open another terminal
-
-ROS_NAMESPACE=robot2 rosrun ORB_SLAM2 RGBD Vocabulary/ORBvoc.bin TUM1.yaml /cam0/rgb/image_raw:=/robot2/cam0/rgb/image_raw /cam0/depth/image_raw:=/robot2/cam0/depth/image_raw
+cd ORB_SLAM2/
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:<YOUR PATH>/ORB_SLAM2/Examples/ROS
+ROS_NAMESPACE=robot<NUM> rosrun ORB_SLAM2 RGBD Vocabulary/ORBvoc.bin TUM1.yaml /cam0/rgb/image_raw:=/robot<NUM>/cam0/rgb/image_raw /cam0/depth/image_raw:=/robot<NUM>/cam0/depth/image_raw
 
 ```
 This step will launch ORB_SLAM nodes, one for each robot.
 Each SLAM nodes open 3 windows:
-1. Keyframe window
+1. Pose graph window
 2. Point Clouds viewr
 3. Features in camera view
 
